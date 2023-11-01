@@ -1,0 +1,1 @@
+# NestJS module for Yandex Message Queue

@@ -1,0 +1,36 @@
+{
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "@aws-sdk/client-sqs": "^3.438.0",
+    "@nestjs/common": "^10.2.6",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.1",
+    "uuidv4": "^6.2.13"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "prepuplish": "npm run build"
+  },
+  "name": "nestjs-ycmq",
+  "version": "1.0.0",
+  "description": "This is NestJS module for Yandex Message Queue",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@types/node": "^20.7.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.2.2"
+  },
+  "keywords": [
+    "nestjs",
+    "nest",
+    "yqm",
+    "yandex",
+    "yandex cloud",
+    "MessageQueue"
+  ],
+  "author": "he2lium",
+  "license": "ISC"
+}
