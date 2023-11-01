@@ -6,6 +6,7 @@ import {YcmqFeatureAsyncOptions} from "./types/ycmq-options.type";
 import {YcmqAsyncOptions} from "./types/ycmq-options.type";
 import {YCMQ_OPTIONS_TOKEN} from "./ycmq.constants";
 import {YCMQ_CLIENT_TOKEN} from "./ycmq.constants";
+import {InjectQueue} from "./decorators/queue-inject.decorator";
 
 export {
     YcmqFeatureOptions,
@@ -15,5 +16,6 @@ export {
     YcmqAsyncOptions,
     YCMQ_CLIENT_TOKEN,
     YcmqModule,
-    YcmqService
+    YcmqService,
+    InjectQueue
 }
