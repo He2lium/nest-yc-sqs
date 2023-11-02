@@ -1,0 +1,1 @@
+export const getClientTokenUtil = (token: string) => (`YCMQ_FEATURE_${token}_CLIENT`)

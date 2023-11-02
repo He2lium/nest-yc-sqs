@@ -5,6 +5,7 @@ import {YCMQ_OPTIONS_TOKEN} from "./ycmq.constants";
 import {YcmqService} from "./ycmq.service";
 import {Type} from "@nestjs/common/interfaces/type.interface";
 import {ForwardReference} from "@nestjs/common/interfaces/modules/forward-reference.interface";
+import {getClientTokenUtil} from "./utils/get-client-token.util";
 
 @Module({})
 export class YcmqModule {
@@ -22,7 +23,7 @@ export class YcmqModule {
         let imports: Array<Type<any> | DynamicModule | Promise<DynamicModule> | ForwardReference> = []
         for(let option of options){
             const options_token = `YCMQ_FEATURE_${option.QueueToken}_OPTIONS`
-            const client_token = `YCMQ_FEATURE_${option.QueueToken}_CLIENT`
+            const client_token = getClientTokenUtil(option.QueueToken)
             providers.push({
                 provide: options_token,
                 useFactory: option.useFactory,
