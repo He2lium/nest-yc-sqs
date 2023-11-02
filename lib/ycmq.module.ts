@@ -1,8 +1,10 @@
-import {DynamicModule, Module} from '@nestjs/common';
+import {DynamicModule, Module, ModuleMetadata, Provider} from '@nestjs/common';
 import {YcmqAsyncOptions, YcmqFeatureAsyncOptions, YcmqFeatureOptions, YcmqOptions} from "./types/ycmq-options.type";
 import {YcmqCoreModule} from "./ycmq-core.module";
 import {YCMQ_OPTIONS_TOKEN} from "./ycmq.constants";
 import {YcmqService} from "./ycmq.service";
+import {Type} from "@nestjs/common/interfaces/type.interface";
+import {ForwardReference} from "@nestjs/common/interfaces/modules/forward-reference.interface";
 
 @Module({})
 export class YcmqModule {
@@ -14,25 +16,33 @@ export class YcmqModule {
         }
     }
 
-    static forFeatureAsync(options: YcmqFeatureAsyncOptions): DynamicModule {
-        const options_token = `YCMQ_FEATURE_${options.QueueToken}_OPTIONS`
-        const client_token = `YCMQ_FEATURE_${options.QueueToken}_CLIENT`
+    static forFeatureAsync(options: YcmqFeatureAsyncOptions[]): DynamicModule {
+        const providers: Provider[] = []
+        const exports: string[] = []
+        const imports: Array<Type<any> | DynamicModule | Promise<DynamicModule> | ForwardReference> = []
+        for(let option of options){
+            const options_token = `YCMQ_FEATURE_${option.QueueToken}_OPTIONS`
+            const client_token = `YCMQ_FEATURE_${option.QueueToken}_CLIENT`
+            providers.push({
+                provide: options_token,
+                useFactory: option.useFactory,
+                inject: option.inject
+            })
+            providers.push({
+                provide: client_token,
+                useFactory: (options: YcmqOptions, featureOptions: YcmqFeatureOptions) =>
+                    new YcmqService(options, featureOptions),
+                inject: [YCMQ_OPTIONS_TOKEN, options_token]
+            })
+            exports.push(client_token)
+            imports.push(...option.imports)
+        }
+
         return {
             module: YcmqModule,
-            imports: options.imports,
-            providers: [
-                {
-                    provide: options_token,
-                    useFactory: options.useFactory,
-                    inject: options.inject
-                }, {
-                    provide: client_token,
-                    useFactory: (options: YcmqOptions, featureOptions: YcmqFeatureOptions) =>
-                        new YcmqService(options, featureOptions),
-                    inject: [YCMQ_OPTIONS_TOKEN, options_token]
-                }
-            ],
-            exports: [client_token]
+            imports: [...new Set(imports)],
+            providers,
+            exports
         }
     }
 }
