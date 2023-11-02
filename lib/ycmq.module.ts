@@ -35,7 +35,7 @@ export class YcmqModule {
                 inject: [YCMQ_OPTIONS_TOKEN, options_token]
             })
             exports.push(client_token)
-            option.imports.forEach(i=>{if(i)imports.push(i)})
+            option.imports?.forEach(i=>{if(i)imports.push(i)})
         }
 
         return {

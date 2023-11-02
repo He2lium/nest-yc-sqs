@@ -1,9 +1,6 @@
 {
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "engines": {
-    "node": "^20.3.0"
-  },
   "dependencies": {
     "@aws-sdk/client-sqs": "^3.438.0",
     "@nestjs/common": "^10.2.6",
