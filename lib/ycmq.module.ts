@@ -1,4 +1,4 @@
-import {DynamicModule, Module, ModuleMetadata, Provider} from '@nestjs/common';
+import {DynamicModule, Module, Provider} from '@nestjs/common';
 import {YcmqAsyncOptions, YcmqFeatureAsyncOptions, YcmqFeatureOptions, YcmqOptions} from "./types/ycmq-options.type";
 import {YcmqCoreModule} from "./ycmq-core.module";
 import {YCMQ_OPTIONS_TOKEN} from "./ycmq.constants";
@@ -19,7 +19,7 @@ export class YcmqModule {
     static forFeatureAsync(options: YcmqFeatureAsyncOptions[]): DynamicModule {
         const providers: Provider[] = []
         const exports: string[] = []
-        const imports: Array<Type<any> | DynamicModule | Promise<DynamicModule> | ForwardReference> = []
+        let imports: Array<Type<any> | DynamicModule | Promise<DynamicModule> | ForwardReference> = []
         for(let option of options){
             const options_token = `YCMQ_FEATURE_${option.QueueToken}_OPTIONS`
             const client_token = `YCMQ_FEATURE_${option.QueueToken}_CLIENT`
@@ -35,7 +35,7 @@ export class YcmqModule {
                 inject: [YCMQ_OPTIONS_TOKEN, options_token]
             })
             exports.push(client_token)
-            imports.push(...option.imports)
+            option.imports.forEach(i=>{if(i)imports.push(i)})
         }
 
         return {
