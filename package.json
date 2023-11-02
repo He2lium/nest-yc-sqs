@@ -16,7 +16,7 @@
     "prepuplish": "npm run build"
   },
   "name": "nestjs-ycmq",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "This is NestJS module for Yandex Message Queue",
   "files": [
     "dist"
