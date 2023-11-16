@@ -7,7 +7,6 @@ export class YcmqService<MessageBodyType=any> extends SQSClient{
     private readonly featureOptions: YcmqFeatureOptions
 
     constructor(options: YcmqOptions, featureOptions: YcmqFeatureOptions) {
-        //console.log('OPT',options, "FOPT", featureOptions)
         super(options)
         this.featureOptions = featureOptions
     }
