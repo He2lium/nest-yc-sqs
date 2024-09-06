@@ -10,6 +10,7 @@ export type YcmqAsyncOptions =
 
 export interface YcmqFeatureOptions{
     QueueUrl: string,
+    DelaySeconds?: number
 }
 
 export type YcmqFeatureAsyncOptions =

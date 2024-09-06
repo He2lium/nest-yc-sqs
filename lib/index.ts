@@ -8,16 +8,18 @@ import {YCMQ_OPTIONS_TOKEN} from "./ycmq.constants";
 import {YCMQ_CLIENT_TOKEN} from "./ycmq.constants";
 import {InjectQueue} from "./decorators/queue-inject.decorator";
 import {getClientTokenUtil} from "./utils/get-client-token.util";
+import { YcmqMessageBody } from "./types/ycmq-message-body.type";
 
 export {
-    YcmqFeatureOptions,
-    YcmqOptions,
-    YcmqFeatureAsyncOptions,
+    InjectQueue,
+    YCMQ_CLIENT_TOKEN,
     YCMQ_OPTIONS_TOKEN,
     YcmqAsyncOptions,
-    YCMQ_CLIENT_TOKEN,
+    YcmqFeatureAsyncOptions,
+    YcmqFeatureOptions,
+    YcmqMessageBody,
     YcmqModule,
+    YcmqOptions,
     YcmqService,
-    InjectQueue,
-    getClientTokenUtil
+    getClientTokenUtil,
 }

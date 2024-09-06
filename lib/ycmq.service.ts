@@ -1,5 +1,5 @@
 import {Injectable} from "@nestjs/common";
-import {SendMessageCommand, SQSClient} from "@aws-sdk/client-sqs";
+import { ListMessageMoveTasksCommand, ReceiveMessageCommand, SendMessageCommand, SQSClient } from "@aws-sdk/client-sqs";
 import {YcmqFeatureOptions, YcmqOptions} from "./types/ycmq-options.type";
 
 @Injectable()
@@ -11,10 +11,19 @@ export class YcmqService<MessageBodyType=any> extends SQSClient{
         this.featureOptions = featureOptions
     }
 
-    public async sendMessage(message: MessageBodyType){
+    public async sendMessage(message: MessageBodyType, DelaySeconds?: number): Promise<void> {
         await this.send(new SendMessageCommand({
             QueueUrl: this.featureOptions.QueueUrl,
-            MessageBody: JSON.stringify(message)
+            MessageBody: JSON.stringify(message),
+            DelaySeconds: DelaySeconds ?? this.featureOptions.DelaySeconds
         }))
+    }
+
+    public async listMessages(){
+        const {Messages} = await this.send(new ReceiveMessageCommand({
+            QueueUrl: this.featureOptions.QueueUrl,
+            MaxNumberOfMessages: 1
+        }))
+        Messages[0].Body
     }
 }
